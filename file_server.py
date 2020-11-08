@@ -33,3 +33,6 @@ def main():
         t = threading.Thread(target=getFile, args=("getThread", con))
         t.start()
     s.close()
+
+if __name__ == "__main__":
+    main()
