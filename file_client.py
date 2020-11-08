@@ -28,3 +28,6 @@ def main():
         else:
             print("File doesn't exist.")
     s.close()
+
+if __name__ = "__main__":
+    main()
