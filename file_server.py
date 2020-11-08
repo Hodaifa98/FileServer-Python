@@ -3,7 +3,7 @@ import os
 import socket
 import threading
 
-def getFile(name: str, s: socket):
+def getFile(name: str, s):
     file_name = s.recv(1024)
     if os.path.isfile(file_name):
         size = str(os.path.getsize(file_name))
@@ -18,4 +18,18 @@ def getFile(name: str, s: socket):
                     s.send(bytes_to_send)
     else:
         s.send("ERR")
+    s.close()
+
+def main():
+    host = "127.0.0.1"
+    port = 5000
+    s = socket.socket()
+    s.bind((host, port))
+    s.listen(5)
+    print("Server started...")
+    while True:
+        con, address = s.accept()
+        print(f"Client connected. IP: {str(address)}")
+        t = threading.Thread(target=getFile, args=("getThread", con))
+        t.start()
     s.close()
