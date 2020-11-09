@@ -7,9 +7,10 @@ def getFile(name: str, s):
     file_name = s.recv(1024)
     if os.path.isfile(file_name):
         size = str(os.path.getsize(file_name))
-        s.send(f"EXISTS {size}")
+        msg = ("EXISTS" + size)
+        s.send(msg.encode())
         user_response = s.recv(1024)
-        if user_response[:2] == "OK":
+        if user_response[:2].decode() == "OK":
             with open(file_name, "rb") as f:
                 bytes_to_send = f.read(1024)
                 s.send(bytes_to_send)
@@ -17,7 +18,7 @@ def getFile(name: str, s):
                     bytes_to_send = f.read(1024)
                     s.send(bytes_to_send)
     else:
-        s.send("ERR")
+        s.send("ERR".encode())
     s.close()
 
 def main():

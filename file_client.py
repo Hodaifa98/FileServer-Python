@@ -8,13 +8,13 @@ def main():
     s.connect((host, port))
     file_name = input("File name: ")
     if file_name != "q":
-        s.send(file_name)
+        s.send(file_name.encode())
         data = s.recv(1024)
-        if data[:6] == "EXISTS":
-            file_size = long(data[6:])
-            message = input(f"File exists: {}Bytes. Download (Y/N)? ")
+        if data[:6].decode() == "EXISTS":
+            file_size = int(data[6:].decode())
+            message = input(f"File exists: {file_size}Bytes. Download (Y/N)? ")
             if message == "Y" or message == "y":
-                s.send("OK")
+                s.send("OK".encode())
                 f = open(f"new_{file_name}", "wb")
                 data = s.recv(1024)
                 total_received = len(data)
@@ -29,5 +29,5 @@ def main():
             print("File doesn't exist.")
     s.close()
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()
