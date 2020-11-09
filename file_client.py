@@ -23,7 +23,8 @@ def main():
                     data = s.recv(1024)
                     total_received += len(data)
                     f.write(data)
-                    print("{0:.2f}% done.".format((total_received/float(file_size)) * 100))
+                    percentage = (total_received/float(file_size)) * 100
+                    print(f"{percentage:.2f}% done.".format())
                 print("Download is complete.")
         else:
             print("File doesn't exist.")
